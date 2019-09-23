@@ -1,0 +1,214 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>RestAssured-Api</groupId>
+  <artifactId>RestAssured-Api</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>RestAssured-Api</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+<dependencies>
+    <dependency>
+    <groupId>com.aventstack</groupId>
+    <artifactId>extentreports</artifactId>
+    <version>3.1.5</version>    
+</dependency>
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-htmlunit-driver</artifactId>
+    <version>2.51.0</version>
+</dependency>
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-java</artifactId>
+    <version>3.4.0</version>
+</dependency>
+<dependency>
+<groupId>info.cukes</groupId>
+<artifactId>cucumber-java</artifactId>
+<version>1.2.5</version>
+</dependency>
+<dependency>
+<groupId>info.cukes</groupId>
+<artifactId>cucumber-jvm-deps</artifactId>
+<version>1.0.5</version>
+</dependency>
+<dependency>
+<groupId>org.apache.maven.surefire</groupId>
+<artifactId>surefire-junit4</artifactId>
+<version>2.18.1</version>
+</dependency>
+<dependency>
+    <groupId>com.github.temyers</groupId>
+    <artifactId>cucumber-jvm-parallel-plugin</artifactId>
+    <version>4.2.0</version>
+</dependency>
+ <dependency>
+        <groupId>org.apache.maven.reporting</groupId>
+        <artifactId>maven-reporting-api</artifactId>
+        <version>2.2.1</version>
+        <scope>test</scope>
+    </dependency>
+ 
+<dependency>
+    <groupId>org.apache.maven</groupId>
+    <artifactId>maven-plugin-api</artifactId>
+    <version>3.0.3</version>
+</dependency>
+    
+<dependency>
+<groupId>info.cukes</groupId>
+<artifactId>cucumber-junit</artifactId>
+<version>1.2.5</version>
+</dependency>
+<dependency>
+    <groupId>com.vimalselvam</groupId>
+    <artifactId>cucumber-extentsreport</artifactId>
+    <version>3.0.2</version>
+   </dependency>
+<dependency>
+    <groupId>io.rest-assured</groupId>
+    <artifactId>rest-assured</artifactId>
+    <version>3.0.2</version>    
+</dependency>
+<dependency>
+    <groupId>io.rest-assured</groupId>
+    <artifactId>json-schema-validator</artifactId>
+    <version>3.0.2</version>
+</dependency>
+<dependency>
+    <groupId>io.rest-assured</groupId>
+    <artifactId>json-path</artifactId>
+    <version>3.0.2</version>
+</dependency>
+<dependency>
+    <groupId>io.rest-assured</groupId>
+    <artifactId>xml-path</artifactId>
+    <version>3.0.2</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.3.6</version>
+</dependency>
+<dependency>
+    <groupId>org.hamcrest</groupId>
+    <artifactId>java-hamcrest</artifactId>
+    <version>2.0.0.0</version>   
+</dependency>
+<dependency>
+	<groupId>org.slf4j</groupId>
+	<artifactId>slf4j-api</artifactId>
+	<version>1.7.5</version>
+</dependency>
+ <dependency>
+	<groupId>org.slf4j</groupId>
+	<artifactId>slf4j-simple</artifactId>
+	<version>1.7.5</version>
+</dependency>
+ 
+ <dependency>
+	<groupId>org.slf4j</groupId>
+	<artifactId>slf4j-log4j12</artifactId>
+	<version>1.7.5</version>
+</dependency>
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring</artifactId>
+	<version>2.5.6</version>
+</dependency>  
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>      
+    </dependency>
+<!-- <dependency>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-report-plugin</artifactId>
+    <version>2.18.1</version>
+</dependency> -->
+  </dependencies>
+  
+   <build>
+    
+    <plugins>
+      <plugin>
+      	<groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.0</version>
+        <configuration>
+        <fork>true</fork>
+        <executable>C:\Program Files\Java\jdk1.8.0_181\bin\javac.exe</executable>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.18.1</version>
+        <configuration>
+        <parallel>classes</parallel>
+        <forkMode>perthread</forkMode>
+        <threadCount>4</threadCount>
+        
+         <!-- <forkCount>4</forkCount>
+        <reuseForks>false</reuseForks> -->
+        
+        <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+          <includes>
+             <!-- classes that include the name CucumberTest, as an example -->
+             <include>**/*TestMy.java</include>           
+          </includes>
+        </configuration>
+      </plugin>
+      
+  
+<plugin>
+   <groupId>net.masterthought</groupId>
+      <artifactId>maven-cucumber-reporting</artifactId>
+           <version>3.15.0</version>
+                    <executions>
+                        <execution>
+                            <id>execution</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <configuration>
+                                <projectName>cucumber-JVm-Report</projectName>
+                                <outputDirectory>${project.build.directory}/cucumber-JVM-reports</outputDirectory>
+                                <cucumberOutput>${project.build.directory}/Cucumber1.json</cucumberOutput>
+                              <cucumberOutput>${project.build.directory}/Cucumber2.json</cucumberOutput>
+                                <!-- <cucumberOutput>${project.build.directory}/cucumber.json</cucumberOutput> -->
+                               <!--  <jsonFiles>
+                                    <param>${project.build.directory}/cucumber-reports/Cucumber1.json</param>
+                                    <param>${project.build.directory}/target/cucumber-reports/Cucumber2.json</param>
+                                </jsonFiles> -->
+                                <parallelTesting>false</parallelTesting>
+                                <enableFlashCharts>true</enableFlashCharts>
+                                <buildNumber>2</buildNumber>                                
+                                <!-- <checkBuildResult>true</checkBuildResult> -->
+                       </configuration>
+                   </execution>
+             </executions>
+        </plugin>      
+    </plugins>
+   
+  </build>
+   <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>3.0.0-M3</version>
+      </plugin>
+    </plugins>
+  </reporting>
+</project>
