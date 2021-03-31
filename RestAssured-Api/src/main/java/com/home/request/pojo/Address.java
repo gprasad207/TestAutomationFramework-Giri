@@ -6,8 +6,14 @@ public class Address {
 	private String suite;
 	private String city;
 	private String zipcode;
+	private	Geo geo;
 	
-	
+	public Geo getGeo() {
+		return geo;
+	}
+	public void setGeo(Geo geo) {
+		this.geo = geo;
+	}
 	public String getStreet() {
 		return street;
 	}
