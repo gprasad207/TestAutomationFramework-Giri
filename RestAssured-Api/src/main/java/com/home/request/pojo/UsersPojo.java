@@ -6,12 +6,17 @@ private int id;
 private	String name;
 private	String email;
 private	Address address;
-private	Geo geo;
 private	Company company;
 private	String phone;
 private	String website;
+private	String userName;
 
-
+public String getUserName() {
+	return userName;
+}
+public void setUserName(String userName) {
+	this.userName = userName;
+}
 public int getId() {
 	return id;
 }
@@ -36,12 +41,7 @@ public Address getAddress() {
 public void setAddress(Address address) {
 	this.address = address;
 }
-public Geo getGeo() {
-	return geo;
-}
-public void setGeo(Geo geo) {
-	this.geo = geo;
-}
+
 public Company getCompany() {
 	return company;
 }

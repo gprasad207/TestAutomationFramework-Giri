@@ -2,30 +2,27 @@ package com.home.request.pojo;
 
 public class Company {
 	
-	private String companyName;	
+	private String name;
 	private String catchPhrase;	
-	private String company_Bs;
+	private String bs;
 	
 	
-	public String getCompanyName() {
-		return companyName;
+	public String getName() {
+		return name;
 	}
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
+	public void setName(String name) {
+		this.name = name;
+	}	
 	public String getCatchPhrase() {
 		return catchPhrase;
 	}
 	public void setCatchPhrase(String catchPhrase) {
 		this.catchPhrase = catchPhrase;
 	}
-	public String getCompany_Bs() {
-		return company_Bs;
+	public String getBs() {
+		return bs;
 	}
-	public void setCompany_Bs(String company_Bs) {
-		this.company_Bs = company_Bs;
+	public void setBs(String bs) {
+		this.bs = bs;
 	}
-	
-	
-
 }

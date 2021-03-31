@@ -6,12 +6,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
  
-public class ConfigFileReader {
+public  class ConfigFileReader {
 	
 	private static Properties properties;
 	private static ConfigFileReader configFileReader;
 
-    private ConfigFileReader() {
+    public ConfigFileReader() {
     	 
     	 
          BufferedReader reader;
@@ -38,8 +38,9 @@ public class ConfigFileReader {
         return configFileReader;
     }
  
-    public static String getBaseUrl() {
+    public String getBaseUrl() {
         String base_Url = properties.getProperty("baseUrl");
+      
         if(base_Url != null) return base_Url;
         else throw new RuntimeException("base_Url not specified in the Configuration.properties file.");
     }
