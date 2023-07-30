@@ -1,5 +1,11 @@
 package com.home.stepDefinition;
 
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -7,6 +13,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+
+import com.grapecity.documents.excel.CsvSaveOptions;
+import com.grapecity.documents.excel.IWorksheet;
+import com.grapecity.documents.excel.Workbook;
 import com.home.utility.WriteToFile;
 
 import cucumber.api.java.en.Given;
@@ -18,7 +28,13 @@ public class YahooFinance extends AbstractPageStepDef {
 
 	String stockName;
 	String PercChange;
+	ArrayList<String> list = new ArrayList<String>();
+	static HashMap<String, ArrayList<String>> stockData = new HashMap<String, ArrayList<String>>();
+	
+	//Object[][] data = new Object[1680][5];
 
+	
+	
 	@FindBy(xpath = "//*[@placeholder ='Search Stocks, Currencies']")
 	WebElement search_Stock_Input;
 	@FindBy(xpath = "//*[@id ='search-button']")
@@ -60,7 +76,7 @@ public class YahooFinance extends AbstractPageStepDef {
 			driver.findElement(
 					By.xpath("//*[@class = 'tr common-table-item']//following::span[text()='Share - NSE'][last()]"))
 					.click();
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 		}
 
 		catch (Exception e) {
@@ -84,7 +100,7 @@ public class YahooFinance extends AbstractPageStepDef {
 			} else {
 				driver.findElement(By.xpath("//*[text()='Historical']")).click();
 
-			//	System.out.println("i clicked Historical button");
+				// System.out.println("i clicked Historical button");
 
 			}
 
@@ -93,7 +109,7 @@ public class YahooFinance extends AbstractPageStepDef {
 
 		catch (Exception e) {
 
-		//	System.out.println("Historical is failing" + e.getStackTrace());
+			// System.out.println("Historical is failing" + e.getStackTrace());
 		}
 	}
 
@@ -106,35 +122,108 @@ public class YahooFinance extends AbstractPageStepDef {
 
 			Thread.sleep(1000);
 
-			String dailyPerceMove = driver.findElement(By.xpath("//*[text()='Chg. %']//following-sibling::dd"))
-					.getText();
-			
-			Thread.sleep(1000);
+			/*
+			 * String dailyPerceMove =
+			 * driver.findElement(By.xpath("//*[text()='Chg. %']//following-sibling::dd"))
+			 * .getText();
+			 * 
+			 * Thread.sleep(1000);
+			 * 
+			 * String averagePrice =
+			 * driver.findElement(By.xpath("//*[text()='Average']//following-sibling::dd"))
+			 * .getText(); Thread.sleep(1000);
+			 */
 
-			String highPriceStock = driver.findElement(By.xpath("//*[text()='Highest']//following-sibling::dd"))
-					.getText();
-			
-			Thread.sleep(1000);
-			
-			driver.findElement(By.xpath("//*[text()='Weekly']")).click();
-			
-			Thread.sleep(1000);
-			
-			String weeklyPerceMove = driver.findElement(By.xpath("//*[text()='Chg. %']//following-sibling::dd"))
-					.getText();
-			Thread.sleep(1000);
-			
-			logger.info("Details of Stock-->" + stockName + "**"+"Highest Price"+"-->" + highPriceStock + "**Daily Price-->" + dailyPerceMove+ "**Weekly" + "-->" + weeklyPerceMove);
-			
-			logger.info("			   ");
-			
-			//System.out.println("Details of Stock-->" + stockName + "**"+"Highest Price"+"-->" + highPriceStock + "**Daily Price-->" + dailyPerceMove+ "**Weekly" + "-->" + weeklyPerceMove);
+			/*
+			 * for (int i = 1; i <= 5; i++) {
+			 * 
+			 * String dailyMove = driver .findElement(By.
+			 * xpath("//*[@class = 'common-table-item u-clickable'][i]/td[7]/span[1]"))
+			 * .getText();
+			 */
 
-			//Thread.sleep(1000);
+			List<WebElement> elements = driver
+					.findElements(By.xpath("//*[@class = 'common-table-item u-clickable']/td[7]/span[1]"));
+			System.out.println("Number of elements:" + elements.size());
 
-			// wf.writtingFile(stockName, PerceMove);
+			for (int i = 1; i < 6; i++) {
+				
+				String dailyMove = "Day_Move" + i;
+				
+				 dailyMove = elements.get(i).getText();
+				//System.out.println("Values are:" + dailyMove);
 
-			// logger.info("Stock 20 days:-" + stockName + "---->" + dailyPerceMove);
+				dailyMove = dailyMove.replaceFirst(".$", "");
+
+				list.add(dailyMove);
+
+				Thread.sleep(200);
+
+			}
+
+			stockData.put(stockName, list);
+
+			for (Map.Entry<String, ArrayList<String>> entry : stockData.entrySet())
+				logger.info("Stock Name = " + entry.getKey() + ", Daily Moves = " + entry.getValue());
+			
+				logger.info(" ");
+				
+				
+				
+				// Initialize workbook
+				Workbook workbook = new Workbook();
+				        
+				// Fetch default worksheet
+				IWorksheet worksheet = workbook.getWorksheets().get(0);
+				Object data = new Object[][] { 				
+				{ stockName, "NewYork", new GregorianCalendar(1968, 6, 8), "male", 80, 180 }
+					
+				};
+
+				// Set data
+				worksheet.getRange("A1:F5").setValue(data);
+				worksheet.getRange("A:F").setColumnWidth(20);
+
+				// Setting ColumnSeparator/ RowSeparator & CellOperator in CSVSaveOptions
+				CsvSaveOptions saveOption = new CsvSaveOptions();
+				saveOption.setColumnSeparator(",");
+				saveOption.setRowSeparator("\r\n");
+				saveOption.setCellSeparator('"');
+				System.out.println("----I AM HERE");
+				// Saving workbook to csv
+				workbook.save("SaveCSVDelimiter.csv", saveOption);
+
+			/*
+			 * String highPriceStock =
+			 * driver.findElement(By.xpath("//*[text()='Average']//following-sibling::dd"))
+			 * .getText();
+			 * 
+			 * Thread.sleep(1000);
+			 * 
+			 * driver.findElement(By.xpath("//*[text()='Weekly']")).click();
+			 * 
+			 * Thread.sleep(1000);
+			 * 
+			 * String weeklyPerceMove =
+			 * driver.findElement(By.xpath("//*[text()='Chg. %']//following-sibling::dd"))
+			 * .getText(); Thread.sleep(1000);
+			 * 
+			 * logger.info("Details of Stock-->" + stockName + "**"+"Highest Price"+"-->" +
+			 * highPriceStock + "**Daily Price-->" + dailyPerceMove+ "**Weekly" + "-->" +
+			 * weeklyPerceMove);
+			 * 
+			 * logger.info("			   ");
+			 * 
+			 * System.out.println("Details of Stock-->" + stockName +
+			 * "**"+"Highest Price"+"-->" + highPriceStock + "**Daily Price-->" +
+			 * dailyPerceMove+ "**Weekly" + "-->" + weeklyPerceMove);
+			 * 
+			 * Thread.sleep(1000);
+			 * 
+			 * // wf.writtingFile(stockName, PerceMove);
+			 * 
+			 * logger.info("Stock 20 days:-" + stockName + "---->" + dailyPerceMove);
+			 */
 
 		}
 

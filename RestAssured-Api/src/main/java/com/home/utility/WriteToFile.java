@@ -5,35 +5,52 @@ import com.opencsv.CSVWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
 import com.home.utility.DataCreater;
 
 public class WriteToFile {
 
-    public void writtingFile(String st, String pe) throws IOException {
+	// public void writtingFile() throws IOException {
 
-        List<String[]> csvData = createCsvDataSimple(st, pe);
+	public static void main(String args[]) throws IOException {
+		String S1 = "1,0,1,0,1,0,0,1";
+		Map<String, Integer> m = new HashMap<String, Integer>();
+		
+	char c[] = S1.toCharArray();
+	
+	List<char[]> asList = Arrays.asList(c);
+	
+	//System.out.println("---------->"+ asList.iterator().hasNext());;
+	
+	Iterator itr = asList.iterator();
+	
+		while (itr.hasNext()) 
+		
+		{
+			System.out.println(itr.next().toString());
+			
+			
+		}
+		//
+		
+		
+		
+	}
 
-        // default all fields are enclosed in double quotes
-        // default separator is a comma
-        try (CSVWriter writer = new CSVWriter(new FileWriter("C:\\Users\\GPGiri\\git\\TestAutomationFramework-Giri\\RestAssured-Api\\DailystockMovementPerc.csv"))) {
-            writer.writeAll(csvData);
-        }
+	}
 
-    }
 
-    private static List<String[]> createCsvDataSimple(String st,String pe) {
-    	
-    	String datePctMov= DataCreater.dateCreater().concat("<-->").concat("%Change");
-    	
-        String[] header = { "Stock Name", datePctMov};
-        String[] record1 = {st, pe};        
 
-        List<String[]> list = new ArrayList<>();
-        list.add(header);
-        list.add(record1);       
-
-        return list;
-    }
-
-}

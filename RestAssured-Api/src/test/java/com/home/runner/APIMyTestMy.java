@@ -17,7 +17,7 @@ import com.home.utility.ConfigFileReader;
     			"junit:target/cucumber-reports/Cucumber.xml",
     			"pretty", "html:target/cucumber-reports"}, 
         		monochrome = true,
-        		tags = {"@Yahoo"}
+        		tags = {"@Invest"}
                 )
 
 public class APIMyTestMy { 
