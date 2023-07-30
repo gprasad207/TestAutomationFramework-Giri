@@ -1,6 +1,8 @@
 package com.home.stepDefinition;
 
 import java.io.FileWriter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -61,6 +63,7 @@ public class MoneyControl extends AbstractPageStepDef {
 
 	WebElement indices_Name = null;
 	String MarketCap;
+	String MarketStockPrice;
 
 	Logger logger = Logger.getLogger(MoneyControl.class);
 
@@ -89,8 +92,11 @@ public class MoneyControl extends AbstractPageStepDef {
 
 	}
 
-	@Given("^I get the Company- five days Perfermance \"([^\"]*)\"$")
-	public void i_get_the_Company_five_days_Perfermance(String arg1) throws InterruptedException {
+	//@Given("^I get the Company- five days Perfermance \"([^\"]*)\ and Loss Days \"([^\"]*)\"$")
+	
+	@Given("^I get the Company- five days Perfermance \"([^\"]*)\"  and Loss Days \"([^\"]*)\"$")
+	public void i_get_the_Company_five_days_Perfermance_and_Loss_Days(String scripMCap, String lossDays)
+			throws InterruptedException {
 
 		// JavascriptExecutor js = (JavascriptExecutor) driver;
 
@@ -100,13 +106,13 @@ public class MoneyControl extends AbstractPageStepDef {
 		Thread.sleep(1000);
 		try {
 			driver.findElement(
-					By.xpath("//*[@class='statlf_title' and text()='NSE']//following::a[text()='" + arg1 + "']"))
+					By.xpath("//*[@class='statlf_title' and text()='NSE']//following::a[text()='" + scripMCap + "']"))
 					.click();
 
 		}
 
 		catch (Exception e) {
-			driver.findElement(By.xpath("//p[text()='NSE']//parent::div/ul/li/a[text()='" + arg1 + "']")).click();
+			driver.findElement(By.xpath("//p[text()='NSE']//parent::div/ul/li/a[text()='" + scripMCap + "']")).click();
 
 		}
 
@@ -134,7 +140,7 @@ public class MoneyControl extends AbstractPageStepDef {
 		String celltext4;
 		String celltext5;
 
-		for (int i = 0; i <= countofCompanies - 850; i++) {
+		for (int i = 0; i <= countofCompanies - 880; i++) {
 
 			// System.out.println("Get the Text::-->" + rows1.get(i).getText());
 			List<WebElement> columns = rows1.get(i).findElements(By.tagName("td"));
@@ -173,21 +179,95 @@ public class MoneyControl extends AbstractPageStepDef {
 
 				loss = new ArrayList<String>();
 
-				if ((celltext5.equalsIgnoreCase("changea red")) && (celltext4.equalsIgnoreCase("changea red"))
-						&& (celltext3.equalsIgnoreCase("changea red")))
-					
+				switch (lossDays) {
+
+				case ("2"):
 
 				{
 
-					loss.add(celltext1);
-					loss.add(celltext2);
-					loss.add(celltext3);
-					loss.add(celltext4);
-					loss.add(celltext5);
+					if ((celltext5.equalsIgnoreCase("changea red")) && (celltext4.equalsIgnoreCase("changea red")))
 
-					stockData.put(celltext, loss);
+					{
 
-					Thread.sleep(1000);
+						loss.add(celltext1);
+						loss.add(celltext2);
+						loss.add(celltext3);
+						loss.add(celltext4);
+						loss.add(celltext5);
+
+						stockData.put(celltext, loss);
+
+						Thread.sleep(1000);
+
+					}
+				}
+
+				case ("3"):
+
+				{
+
+					if ((celltext5.equalsIgnoreCase("changea red")) && (celltext4.equalsIgnoreCase("changea red"))
+							&& (celltext3.equalsIgnoreCase("changea red")))
+
+					{
+
+						loss.add(celltext1);
+						loss.add(celltext2);
+						loss.add(celltext3);
+						loss.add(celltext4);
+						loss.add(celltext5);
+
+						stockData.put(celltext, loss);
+
+						Thread.sleep(1000);
+
+					}
+				}
+
+				case ("4"):
+
+				{
+					if ((celltext5.equalsIgnoreCase("changea red")) && (celltext4.equalsIgnoreCase("changea red"))
+							&& (celltext3.equalsIgnoreCase("changea red"))&& (celltext2.equalsIgnoreCase("changea red")))
+
+					{
+
+						loss.add(celltext1);
+						loss.add(celltext2);
+						loss.add(celltext3);
+						loss.add(celltext4);
+						loss.add(celltext5);
+
+						stockData.put(celltext, loss);
+
+						Thread.sleep(1000);
+
+					}
+				}
+
+				case ("5"):
+
+				{
+
+					if ((celltext5.equalsIgnoreCase("changea red")) && (celltext4.equalsIgnoreCase("changea red"))
+							&& (celltext3.equalsIgnoreCase("changea red")) && (celltext2.equalsIgnoreCase("changea red")
+									&& (celltext1.equalsIgnoreCase("changea red"))))
+
+					{
+
+						loss.add(celltext1);
+						loss.add(celltext2);
+						loss.add(celltext3);
+						loss.add(celltext4);
+						loss.add(celltext5);
+
+						stockData.put(celltext, loss);
+
+						Thread.sleep(1000);
+
+					}
+
+				}
 
 				}
 
@@ -199,11 +279,14 @@ public class MoneyControl extends AbstractPageStepDef {
 
 	}
 
-	@Given("^I get the Company - MarketCap \"([^\"]*)\"$")
-	public void i_get_the_Company_MarketCap(String arg1) throws Throwable {
+	@Given("^I get the Company - MarketCap \"([^\"]*)\" and Stock Price less then \"([^\"]*)\"$")
+	public void i_get_the_Company_MarketCap_and_Stock_Price_less_then(String arg1, String currentStockPrice) throws Throwable {
 		try {
 			String Mcap = null;
-			MarketCap = null;
+			MarketCap = null;			
+			String stockPrice= null;
+			
+			
 			Iterator itr = stockData.keySet().iterator();
 
 			while (itr.hasNext()) {
@@ -243,6 +326,10 @@ public class MoneyControl extends AbstractPageStepDef {
 
 						Thread.sleep(1000);
 						Mcap = driver.findElement(By.xpath("//td[@class='nsemktcap bsemktcap']")).getText();
+						
+					    stockPrice =  driver.findElement(By.xpath("//td[@class='nseHP bseHP']")).getText();
+								
+								
 
 					} catch (Exception e) {
 
@@ -253,7 +340,8 @@ public class MoneyControl extends AbstractPageStepDef {
 				} else {
 
 					System.out.println("Script didnt load");
-					Mcap = "999";
+					Mcap = "99";
+					stockPrice = "0";
 					scrips_Didnt_Load.add(s);
 				}
 				Thread.sleep(1000);
@@ -266,12 +354,26 @@ public class MoneyControl extends AbstractPageStepDef {
 
 					Mcap = Mcap;
 				}
+				
+				if (stockPrice.contains(",")) {
+
+					stockPrice = stockPrice.replace(",", "");
+					MarketStockPrice = stockPrice;
+				} else {
+
+					stockPrice = stockPrice;
+				}
 				System.out.println("Mcap of the the stock::--" + s + "  is--> " + Mcap);
+				System.out.println("Stock Price of the the stock::--" + s + "  is--> " + stockPrice);
 
 				int marketCapital = Integer.valueOf(Mcap);
 				int arg2 = Integer.valueOf(arg1);
+				
+				
+				float cMarketPrice = Float.valueOf(stockPrice);
+				float givenCMP = Integer.valueOf(currentStockPrice);
 
-				if (marketCapital >= arg2) {
+				if ((marketCapital >= arg2)&&(cMarketPrice <= givenCMP)) {
 
 					System.out.println("Scrip Market Cap larger then::" + arg2
 							+ "::are in Loss from Last 3 Trading Session are-->" + s);
@@ -322,8 +424,11 @@ public class MoneyControl extends AbstractPageStepDef {
 	@Given("^I write the Company- five days Perfermance")
 	public void i_write_the_Company_five_days_Perfermance() throws Throwable {
 		try {
+			
+			LocalDateTime localDateTime = LocalDateTime.now(); 
+			 String path= "C:\\Users\\GPGiri\\git\\TestAutomationFramework-Giri\\RestAssured-Api\\Stock\\"+((localDateTime.toString())+".txt");
 
-			FileWriter fw = new FileWriter("C:\\Users\\GPGiri\\STOCK.txt");
+			FileWriter fw = new FileWriter(path);
 
 			for (Map.Entry<String, String> entry : topLooser.entrySet()) {
 
