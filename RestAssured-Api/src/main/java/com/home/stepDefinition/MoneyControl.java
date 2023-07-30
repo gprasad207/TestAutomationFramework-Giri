@@ -175,6 +175,7 @@ public class MoneyControl extends AbstractPageStepDef {
 
 				if ((celltext5.equalsIgnoreCase("changea red")) && (celltext4.equalsIgnoreCase("changea red"))
 						&& (celltext3.equalsIgnoreCase("changea red")))
+					
 
 				{
 

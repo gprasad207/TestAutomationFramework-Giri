@@ -4,15 +4,13 @@ Feature: Get Stocs data from Yahoo Finance
     Given I Load Money Control page
 
   @Invest
-  Scenario Outline: Get Stocs data from Money Control 
-    
+  Scenario Outline: Get Stocs data from Money Control     
   
     And I get the Company- five days Perfermance "<indices>"  
     
     And I get the Company - MarketCap "<Marketcpaital>"  
     
-    And I write the Company- five days Perfermance
-    
+    And I write the Company- five days Perfermance    
 
     Examples: 
       | indices       | Marketcpaital |
